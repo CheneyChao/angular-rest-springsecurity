@@ -36,22 +36,25 @@ public class DataBaseInitializer
 
     public void initDataBase()
     {
-        User userUser = new User("user", this.passwordEncoder.encode("user"));
-        userUser.addRole(Role.USER);
-        this.userDao.save(userUser);
-
-        User adminUser = new User("admin", this.passwordEncoder.encode("admin"));
-        adminUser.addRole(Role.USER);
-        adminUser.addRole(Role.ADMIN);
-        this.userDao.save(adminUser);
-
-        long timestamp = System.currentTimeMillis() - (1000 * 60 * 60 * 24);
-        for (int i = 0; i < 10; i++) {
-            NewsEntry newsEntry = new NewsEntry();
-            newsEntry.setContent("This is example content " + i);
-            newsEntry.setDate(new Date(timestamp));
-            this.newsEntryDao.save(newsEntry);
-            timestamp += 1000 * 60 * 60;
-        }
+    	// Bypass the data initial logic if the data is already there
+    	if(this.userDao.findAll().size() == 0){
+	        User userUser = new User("user", this.passwordEncoder.encode("user"));
+	        userUser.addRole(Role.USER);
+	        this.userDao.save(userUser);
+	
+	        User adminUser = new User("admin", this.passwordEncoder.encode("admin"));
+	        adminUser.addRole(Role.USER);
+	        adminUser.addRole(Role.ADMIN);
+	        this.userDao.save(adminUser);
+	
+	        long timestamp = System.currentTimeMillis() - (1000 * 60 * 60 * 24);
+	        for (int i = 0; i < 10; i++) {
+	            NewsEntry newsEntry = new NewsEntry();
+	            newsEntry.setContent("This is example content " + i);
+	            newsEntry.setDate(new Date(timestamp));
+	            this.newsEntryDao.save(newsEntry);
+	            timestamp += 1000 * 60 * 60;
+	        }
+    	}
     }
 }
