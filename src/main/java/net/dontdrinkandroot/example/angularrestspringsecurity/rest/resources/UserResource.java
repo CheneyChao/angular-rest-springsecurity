@@ -129,7 +129,7 @@ public class UserResource
     
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("id")
+    @Path("{id}")
     public void delete(@PathParam("id") Long id){
     	logger.info("delete(id): " + id);
     	

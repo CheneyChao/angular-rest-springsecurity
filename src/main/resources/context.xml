@@ -106,6 +106,10 @@
 		<security:intercept-url method="PUT" pattern="/rest/news/**" access="hasRole('ADMIN')" />
 		<security:intercept-url method="POST" pattern="/rest/news/**" access="hasRole('ADMIN')" />
 		<security:intercept-url method="DELETE" pattern="/rest/news/**" access="hasRole('ADMIN')" />
+		<security:intercept-url method="GET" pattern="/rest/user/**" access="hasRole('USER')" />
+		<security:intercept-url method="PUT" pattern="/rest/user/**" access="hasRole('ADMIN')" />
+		<security:intercept-url method="POST" pattern="/rest/user/**" access="hasRole('ADMIN')" />
+		<security:intercept-url method="DELETE" pattern="/rest/user/**" access="hasRole('ADMIN')" />
 	</security:http>
 
 	<bean id="unauthorizedEntryPoint" class="net.dontdrinkandroot.example.angularrestspringsecurity.rest.UnauthorizedEntryPoint" />
