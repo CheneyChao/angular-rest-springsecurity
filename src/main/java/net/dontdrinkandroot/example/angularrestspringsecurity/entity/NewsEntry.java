@@ -6,6 +6,8 @@ import org.codehaus.jackson.map.annotate.JsonView;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**

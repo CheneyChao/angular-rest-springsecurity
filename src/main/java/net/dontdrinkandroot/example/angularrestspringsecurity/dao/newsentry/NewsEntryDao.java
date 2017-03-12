@@ -1,5 +1,7 @@
 package net.dontdrinkandroot.example.angularrestspringsecurity.dao.newsentry;
 
+import java.math.BigInteger;
+
 import net.dontdrinkandroot.example.angularrestspringsecurity.dao.Dao;
 import net.dontdrinkandroot.example.angularrestspringsecurity.entity.NewsEntry;
 

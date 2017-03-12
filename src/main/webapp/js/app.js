@@ -101,7 +101,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 		var accessToken = $cookieStore.get('accessToken');
 		if (accessToken !== undefined) {
 			$rootScope.accessToken = accessToken;
-			UserService.get(function(user) {
+			UserService.currentUser(function(user) {
 				$rootScope.user = user;
 				$location.path(originalPath);
 			});
@@ -158,7 +158,7 @@ function LoginController($scope, $rootScope, $location, $cookieStore, UserServic
 			if ($scope.rememberMe) {
 				$cookieStore.put('accessToken', accessToken);
 			}
-			UserService.get(function(user) {
+			UserService.currentUser(function(user) {
 				$rootScope.user = user;
 				$location.path("/");
 			});
@@ -176,6 +176,11 @@ services.factory('UserService', function($resource) {
 				authenticate: {
 					method: 'POST',
 					params: {'action' : 'authenticate'},
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				},
+				currentUser: {
+					method: 'GET',
+					params: {'action' : 'currentUser'},
 					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 				},
 			}
