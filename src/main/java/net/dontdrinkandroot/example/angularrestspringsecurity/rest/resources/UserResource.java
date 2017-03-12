@@ -73,13 +73,13 @@ public class UserResource
         return new UserTransfer(userDetails.getUsername(), this.createRoleMap(userDetails));
     }
     
-    /*
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String list() throws IOException{
     	List<User> users = this.userDao.findAll();
     	return objectMapper.writer().writeValueAsString(users);
-    }*/
+    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)

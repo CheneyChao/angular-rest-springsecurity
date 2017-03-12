@@ -2,14 +2,29 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 	.config(
 		[ '$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 			
-			$routeProvider.when('/create', {
-				templateUrl: 'partials/create.html',
-				controller: CreateController
+			$routeProvider.when('/news/create', {
+				templateUrl: 'partials/news/create.html',
+				controller: NewsCreateController
 			});
 			
-			$routeProvider.when('/edit/:id', {
-				templateUrl: 'partials/edit.html',
-				controller: EditController
+			$routeProvider.when('/news/edit/:id', {
+				templateUrl: 'partials/news/edit.html',
+				controller: NewsEditController
+			});
+			
+			$routeProvider.when('/user/create', {
+				templateUrl: 'partials/user/create.html',
+				controller: UserCreateController
+			});
+			
+			$routeProvider.when('/user/edit/:id', {
+				templateUrl: 'partials/user/edit.html',
+				controller: UserEditController
+			});
+			
+			$routeProvider.when('/user', {
+				templateUrl: 'partials/user/index.html',
+				controller: UserIndexController
 			});
 
 			$routeProvider.when('/login', {
@@ -18,8 +33,8 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 			});
 			
 			$routeProvider.otherwise({
-				templateUrl: 'partials/index.html',
-				controller: IndexController
+				templateUrl: 'partials/news/index.html',
+				controller: NewsIndexController
 			});
 			
 			$locationProvider.hashPrefix('!');
@@ -111,7 +126,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 	});
 
 
-function IndexController($scope, NewsService) {
+function NewsIndexController($scope, NewsService) {
 	
 	$scope.newsEntries = NewsService.query();
 	
@@ -123,7 +138,7 @@ function IndexController($scope, NewsService) {
 };
 
 
-function EditController($scope, $routeParams, $location, NewsService) {
+function NewsEditController($scope, $routeParams, $location, NewsService) {
 
 	$scope.newsEntry = NewsService.get({id: $routeParams.id});
 	
@@ -135,7 +150,7 @@ function EditController($scope, $routeParams, $location, NewsService) {
 };
 
 
-function CreateController($scope, $location, NewsService) {
+function NewsCreateController($scope, $location, NewsService) {
 	
 	$scope.newsEntry = new NewsService();
 	
@@ -145,6 +160,46 @@ function CreateController($scope, $location, NewsService) {
 		});
 	};
 };
+
+
+function UserIndexController($scope, UserService) {
+	
+	$scope.users = UserService.query();
+	$scope.getUserRoles = function(user) {
+		return user.roles.join(", ");
+	}
+	
+	$scope.deleteUser = function(user) {
+		user.$remove(function() {
+			$scope.users = UserService.query();
+		});
+	};
+};
+
+
+function UserEditController($scope, $routeParams, $location, UserService) {
+
+	$scope.user = UserService.get({id: $routeParams.id});
+	
+	$scope.save = function() {
+		$scope.user.$save(function() {
+			$location.path('/user');
+		});
+	};
+};
+
+
+function UserCreateController($scope, $location, UserService) {
+	
+	$scope.user = new UserService();
+	
+	$scope.save = function() {
+		$scope.user.$save(function() {
+			$location.path('/user');
+		});
+	};
+};
+
 
 
 function LoginController($scope, $rootScope, $location, $cookieStore, UserService) {

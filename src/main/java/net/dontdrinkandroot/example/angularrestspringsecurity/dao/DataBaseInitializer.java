@@ -44,6 +44,7 @@ public class DataBaseInitializer
 	
 	        User adminUser = new User("admin", this.passwordEncoder.encode("admin"));
 	        adminUser.addRole(Role.USER);
+	        adminUser.addRole(Role.CONTRIBUTOR);
 	        adminUser.addRole(Role.ADMIN);
 	        this.userDao.save(adminUser);
 	

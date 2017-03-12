@@ -1,0 +1,17 @@
+<div class="pull-right">
+	<a href="#!/news/create" class="btn btn-default" ng-show="hasRole('ROLE_ADMIN')" title="Create"><span class="fa fa-plus"></span></a>
+</div>
+<div class="page-header">
+	<h3>Users</h3>
+</div>
+
+<div ng-repeat="user in users">
+	<hr />
+	<div class="pull-right">
+		<a href="" ng-click="deleteUser(user)" class="btn btn-xs btn-default" ng-show="hasRole('ROLE_ADMIN')" title="delete"><span class="fa fa-trash-o"></span></a>
+		<a href="#!/user/edit/{{user.id}}" class="btn btn-xs btn-default" ng-show="hasRole('ROLE_ADMIN')" title="edit"><span class="fa fa-pencil"></span></a>
+	</div>
+	<h4>{{user.name}}</h4>
+	<p>User Roles: {{getUserRoles(user)}}</p>
+</div>
+<hr />
