@@ -6,6 +6,7 @@ import net.dontdrinkandroot.example.angularrestspringsecurity.entity.User;
 import net.dontdrinkandroot.example.angularrestspringsecurity.service.UserService;
 import net.dontdrinkandroot.example.angularrestspringsecurity.transfer.UserTransfer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.sun.jersey.api.view.ImplicitProduces;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -48,6 +51,9 @@ public class UserResource
 	
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     @Qualifier("authenticationManager")
@@ -100,6 +106,9 @@ public class UserResource
     public User create(User user){
     	logger.info("create(): " + user);
     	
+    	if(StringUtils.isEmpty(user.getPassword())){
+    		user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+    	}
     	return this.userDao.save(user);
     }
     

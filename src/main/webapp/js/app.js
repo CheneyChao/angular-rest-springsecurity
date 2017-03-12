@@ -226,7 +226,7 @@ var services = angular.module('exampleApp.services', ['ngResource']);
 
 services.factory('UserService', function($resource) {
 	
-	return $resource('rest/user/:action', {},
+	return $resource('rest/user/:action:id', {id: '@id'},
 			{
 				authenticate: {
 					method: 'POST',
