@@ -147,6 +147,10 @@ function NewsEditController($scope, $routeParams, $location, NewsService) {
 			$location.path('/');
 		});
 	};
+	
+	$scope.cancel = function() {
+		$location.path('/');
+	}
 };
 
 
@@ -159,6 +163,10 @@ function NewsCreateController($scope, $location, NewsService) {
 			$location.path('/');
 		});
 	};
+	
+	$scope.cancel = function() {
+		$location.path('/');
+	}
 };
 
 
@@ -179,25 +187,72 @@ function UserIndexController($scope, UserService) {
 
 function UserEditController($scope, $routeParams, $location, UserService) {
 
-	$scope.user = UserService.get({id: $routeParams.id});
+	UserService.get({id: $routeParams.id}, function(user){
+		$scope.user = user;
+		UserService.roles(function(roles){
+			$scope.roles = roles.reduce(function(map, role){
+				map[role] = false;
+				return map;
+			}, {});
+			if($scope.user && $scope.user.roles){
+				$.each($scope.user.roles, function(index, value){
+					$scope.roles[value] = true;
+				});
+			}
+		});
+		
+	});
 	
 	$scope.save = function() {
+		if($scope.roles){
+			$scope.user.roles = new Array();
+			$.each($scope.roles, function(key, value){
+				if(value){
+					$scope.user.roles.push(key);
+				}
+			});
+		}
+		
 		$scope.user.$save(function() {
 			$location.path('/user');
 		});
 	};
+	
+	$scope.cancel = function() {
+		$location.path('/user');
+	}
 };
 
 
 function UserCreateController($scope, $location, UserService) {
 	
 	$scope.user = new UserService();
+	UserService.roles(function(roles){
+		if(roles){
+			$scope.roles = roles.reduce(function(map, role){
+				map[role] = false;
+				return map;
+			}, {});
+		}
+	});
 	
 	$scope.save = function() {
+		if($scope.roles){
+			$scope.user.roles = new Array();
+			$.each($scope.roles, function(key, value){
+				if(value){
+					$scope.user.roles.push(key);
+				}
+			});
+		}
 		$scope.user.$save(function() {
 			$location.path('/user');
 		});
 	};
+	
+	$scope.cancel = function() {
+		$location.path('/user');
+	}
 };
 
 
@@ -237,6 +292,12 @@ services.factory('UserService', function($resource) {
 					method: 'GET',
 					params: {'action' : 'currentUser'},
 					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				},
+				roles: {
+					method: 'GET',
+					params: {'action' : 'roles'},
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+					isArray:true
 				},
 			}
 		);

@@ -2,6 +2,7 @@ package net.dontdrinkandroot.example.angularrestspringsecurity.rest.resources;
 
 import net.dontdrinkandroot.example.angularrestspringsecurity.dao.user.UserDao;
 import net.dontdrinkandroot.example.angularrestspringsecurity.entity.AccessToken;
+import net.dontdrinkandroot.example.angularrestspringsecurity.entity.Role;
 import net.dontdrinkandroot.example.angularrestspringsecurity.entity.User;
 import net.dontdrinkandroot.example.angularrestspringsecurity.service.UserService;
 import net.dontdrinkandroot.example.angularrestspringsecurity.transfer.UserTransfer;
@@ -98,6 +99,14 @@ public class UserResource
     		throw new WebApplicationException(404);
     	}
     	return user;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("roles")
+    public Role[] roles(){
+    	logger.info("roles");
+    	return Role.values();
     }
     
     @POST

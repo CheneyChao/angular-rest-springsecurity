@@ -10,8 +10,20 @@
 		</div>
 	</div>
 	<div class="form-group">
+		<label class="control-label col-sm-2" for="name">Roles</label>
+		<div class="col-sm-10">
+			<ul class="list-group">
+		        <li class="list-group-item" ng-repeat="(key, value) in roles" ng-click="null">
+		          <input type="checkbox" ng-model="roles[key]"/>
+		          <span>{{key}}</span>
+		        </li>
+		     </ul>
+		</div>
+	</div>
+	<div class="form-group">
 		<div class="col-sm-10 col-sm-offset-2">
 			<button type="submit" class="btn btn-primary" ng-click="save()"><span class="fa fa-check"></span> Save</button>
+			<button type="button" class="btn btn-primary" ng-click="cancel()"><span class="fa fa-close"></span> Cancel</button>
 		</div>
 	</div>
 </form>
